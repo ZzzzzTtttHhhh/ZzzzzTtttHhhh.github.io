@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的作品集</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      background: #f6f6f6;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 42px;
+      margin: 0 0 10px;
+    }
+
+    header p {
+      font-size: 18px;
+      color: #ccc;
+    }
+
+    section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    h2 {
+      border-bottom: 2px solid #111;
+      padding-bottom: 8px;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>你的名字</h1>
+    <p>设计师 / 开发者 / 摄影师 / 学生</p>
+  </header>
+
+  <section>
+    <h2>关于我</h2>
+    <p>
+      你好，我是你的名字。这里写一句简单介绍，比如：我专注于网页设计、视觉设计和前端开发，喜欢把想法做成清晰、美观、可用的作品。
+    </p>
+  </section>
+
+  <section>
+    <h2>我的作品</h2>
+    <div class="projects">
+      <div class="card">
+        <h3>作品一</h3>
+        <p>这里介绍你的第一个项目：做了什么、用了什么工具、解决了什么问题。</p>
+        <a href="#">查看作品</a>
+      </div>
+
+      <div class="card">
+        <h3>作品二</h3>
+        <p>这里介绍你的第二个项目，可以放设计图、网站链接、GitHub 项目或 Behance 链接。</p>
+        <a href="#">查看作品</a>
+      </div>
+
+      <div class="card">
+        <h3>作品三</h3>
+        <p>这里介绍你的第三个项目，重点写你的贡献和成果。</p>
+        <a href="#">查看作品</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>联系我</h2>
+    <p>邮箱：your@email.com</p>
+    <p>GitHub：<a href="#">你的 GitHub 链接</a></p>
+    <p>LinkedIn / 小红书 / Behance：<a href="#">你的链接</a></p>
+  </section>
+
+  <footer>
+    <p>© 2026 你的名字</p>
+  </footer>
+
+</body>
+</html>
