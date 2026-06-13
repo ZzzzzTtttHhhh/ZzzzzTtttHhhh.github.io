@@ -3,120 +3,470 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>我的作品集</title>
+  <title>测控专业资料库</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, "Microsoft YaHei", sans-serif;
-      background: #f6f6f6;
-      color: #222;
-      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: #f4f7fb;
+      color: #162033;
     }
 
     header {
-      background: #111;
+      min-height: 340px;
+      padding: 70px 24px;
       color: white;
-      padding: 80px 20px;
+      background:
+        linear-gradient(135deg, rgba(14, 48, 92, 0.95), rgba(0, 148, 172, 0.88)),
+        url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80");
+      background-size: cover;
+      background-position: center;
       text-align: center;
     }
 
     header h1 {
-      font-size: 42px;
-      margin: 0 0 10px;
+      margin: 0;
+      font-size: clamp(34px, 6vw, 62px);
+      letter-spacing: 2px;
     }
 
     header p {
+      max-width: 760px;
+      margin: 18px auto 32px;
       font-size: 18px;
-      color: #ccc;
+      line-height: 1.8;
+      color: #e8f7ff;
     }
 
-    section {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 20px;
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
     }
 
-    h2 {
-      border-bottom: 2px solid #111;
-      padding-bottom: 8px;
+    .btn {
+      display: inline-block;
+      padding: 13px 22px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.2s;
     }
 
-    .projects {
+    .btn-primary {
+      background: #ffffff;
+      color: #0d4775;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.14);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    main {
+      max-width: 1180px;
+      margin: -54px auto 70px;
+      padding: 0 22px;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: 0 20px 50px rgba(29, 57, 92, 0.13);
+    }
+
+    .toolbar {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
+      grid-template-columns: 1fr 220px;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 15px 16px;
+      border: 1px solid #d8e2ef;
+      border-radius: 16px;
+      font-size: 15px;
+      outline: none;
+      background: #f9fbff;
+    }
+
+    input:focus, select:focus {
+      border-color: #139fb3;
+      box-shadow: 0 0 0 4px rgba(19, 159, 179, 0.12);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 24px 0;
+    }
+
+    .stat {
+      background: linear-gradient(180deg, #f9fcff, #eef6ff);
+      border: 1px solid #e4edf7;
+      border-radius: 18px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      color: #0e7891;
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0 26px;
+    }
+
+    .chip {
+      padding: 10px 15px;
+      border-radius: 999px;
+      border: 1px solid #d8e2ef;
+      background: white;
+      cursor: pointer;
+      font-weight: 600;
+      color: #37506b;
+    }
+
+    .chip.active {
+      background: #0e7891;
+      color: white;
+      border-color: #0e7891;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 18px;
     }
 
     .card {
+      position: relative;
       background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border: 1px solid #e4edf7;
+      border-radius: 22px;
+      padding: 22px;
+      overflow: hidden;
+      transition: 0.2s;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, #0e7891, #36c2a6);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(29, 57, 92, 0.12);
+    }
+
+    .tagline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .type {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #e9f8fb;
+      color: #0e7891;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .size {
+      color: #6d7f91;
+      font-size: 13px;
     }
 
     .card h3 {
-      margin-top: 0;
+      margin: 8px 0 8px;
+      font-size: 20px;
     }
 
-    a {
-      color: #0066cc;
+    .card p {
+      color: #52667a;
+      line-height: 1.7;
+      margin: 0 0 14px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 18px;
+    }
+
+    .tag {
+      font-size: 12px;
+      color: #496174;
+      background: #f1f5fa;
+      padding: 5px 9px;
+      border-radius: 999px;
+    }
+
+    .download {
+      display: block;
+      text-align: center;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: #112b46;
+      color: white;
       text-decoration: none;
+      font-weight: 800;
+    }
+
+    .upload-box {
+      margin-top: 28px;
+      padding: 24px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #102a45, #0e7891);
+      color: white;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .upload-box h2 {
+      margin: 0 0 8px;
+    }
+
+    .upload-box p {
+      margin: 0;
+      color: #dff6ff;
+      line-height: 1.7;
     }
 
     footer {
       text-align: center;
-      padding: 30px;
-      color: #666;
+      color: #738398;
+      padding: 34px 18px;
+    }
+
+    @media (max-width: 760px) {
+      .toolbar,
+      .upload-box,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        margin-top: -36px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>你的名字</h1>
-    <p>设计师 / 开发者 / 摄影师 / 学生</p>
-  </header>
+<header>
+  <h1>测控专业资料库</h1>
+  <p>
+    面向测控技术与仪器、自动化、电子信息相关方向，整理课程笔记、实验报告、复习资料、课程设计与工具教程。
+  </p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="#resources">浏览资料</a>
+    <a class="btn btn-secondary" href="#upload">上传投稿</a>
+  </div>
+</header>
 
-  <section>
-    <h2>关于我</h2>
-    <p>
-      你好，我是你的名字。这里写一句简单介绍，比如：我专注于网页设计、视觉设计和前端开发，喜欢把想法做成清晰、美观、可用的作品。
-    </p>
-  </section>
+<main>
+  <section class="panel" id="resources">
+    <div class="toolbar">
+      <input id="searchInput" type="text" placeholder="搜索：传感器、自动控制、LabVIEW、单片机、实验报告..." />
+      <select id="typeSelect">
+        <option value="全部">全部类型</option>
+        <option value="PDF">PDF</option>
+        <option value="PPT">PPT</option>
+        <option value="DOC">DOC</option>
+        <option value="ZIP">ZIP</option>
+      </select>
+    </div>
 
-  <section>
-    <h2>我的作品</h2>
-    <div class="projects">
-      <div class="card">
-        <h3>作品一</h3>
-        <p>这里介绍你的第一个项目：做了什么、用了什么工具、解决了什么问题。</p>
-        <a href="#">查看作品</a>
+    <div class="stats">
+      <div class="stat"><strong id="totalCount">0</strong>份资料</div>
+      <div class="stat"><strong>8</strong>个方向</div>
+      <div class="stat"><strong>Free</strong>免费下载</div>
+      <div class="stat"><strong>GitHub</strong>托管</div>
+    </div>
+
+    <div class="categories" id="categoryBox"></div>
+
+    <div class="grid" id="resourceGrid"></div>
+
+    <div class="upload-box" id="upload">
+      <div>
+        <h2>上传 / 投稿资料</h2>
+        <p>
+          GitHub Pages 不能直接接收访客上传文件。你可以先把资料发到邮箱，审核后由站长上传到 GitHub 仓库的 files 文件夹。
+        </p>
       </div>
-
-      <div class="card">
-        <h3>作品二</h3>
-        <p>这里介绍你的第二个项目，可以放设计图、网站链接、GitHub 项目或 Behance 链接。</p>
-        <a href="#">查看作品</a>
-      </div>
-
-      <div class="card">
-        <h3>作品三</h3>
-        <p>这里介绍你的第三个项目，重点写你的贡献和成果。</p>
-        <a href="#">查看作品</a>
-      </div>
+      <a class="btn btn-primary" href="mailto:your@email.com?subject=测控资料投稿&body=资料名称：%0A资料类别：%0A资料说明：%0A投稿人：">
+        邮件投稿
+      </a>
     </div>
   </section>
+</main>
 
-  <section>
-    <h2>联系我</h2>
-    <p>邮箱：your@email.com</p>
-    <p>GitHub：<a href="#">你的 GitHub 链接</a></p>
-    <p>LinkedIn / 小红书 / Behance：<a href="#">你的链接</a></p>
-  </section>
+<footer>
+  © 2026 测控专业资料库｜仅供学习交流，请勿上传侵权内容
+</footer>
 
-  <footer>
-    <p>© 2026 你的名字</p>
-  </footer>
+<script>
+  const resources = [
+    {
+      title: "传感器与检测技术复习笔记",
+      category: "传感器与检测",
+      type: "PDF",
+      size: "2.4 MB",
+      desc: "包含传感器分类、静动态特性、电阻式、电容式、电感式、压电式传感器等重点内容。",
+      tags: ["传感器", "检测技术", "期末复习"],
+      link: "files/sensor-notes.pdf"
+    },
+    {
+      title: "自动控制原理知识点整理",
+      category: "自动控制",
+      type: "PDF",
+      size: "3.1 MB",
+      desc: "整理传递函数、时域分析、根轨迹、频率响应、稳定性判据等常见考点。",
+      tags: ["自动控制", "根轨迹", "稳定性"],
+      link: "files/control-review.pdf"
+    },
+    {
+      title: "LabVIEW 虚拟仪器入门教程",
+      category: "虚拟仪器",
+      type: "PPT",
+      size: "6.8 MB",
+      desc: "适合课程设计和实验入门，包含前面板、程序框图、数据采集和常见控件使用。",
+      tags: ["LabVIEW", "虚拟仪器", "课程设计"],
+      link: "files/labview-guide.pdf"
+    },
+    {
+      title: "单片机实验报告模板",
+      category: "单片机与嵌入式",
+      type: "DOC",
+      size: "860 KB",
+      desc: "适用于 51 单片机、STM32、Arduino 等基础实验报告排版与内容结构参考。",
+      tags: ["单片机", "实验报告", "模板"],
+      link: "files/mcu-report-template.docx"
+    },
+    {
+      title: "误差理论与数据处理公式表",
+      category: "误差与数据处理",
+      type: "PDF",
+      size: "1.2 MB",
+      desc: "包含误差分类、标准差、不确定度、最小二乘法、有效数字等常用公式。",
+      tags: ["误差理论", "数据处理", "公式"],
+      link: "files/error-formulas.pdf"
+    },
+    {
+      title: "测控课程设计资料包",
+      category: "课程设计",
+      type: "ZIP",
+      size: "12.5 MB",
+      desc: "课程设计参考资料包，可放置报告、代码、原理图、仿真文件等压缩包。",
+      tags: ["课程设计", "资料包", "代码"],
+      link: "files/project-package.zip"
+    }
+  ];
+
+  let currentCategory = "全部";
+
+  const categories = ["全部", ...new Set(resources.map(item => item.category))];
+
+  const categoryBox = document.getElementById("categoryBox");
+  const resourceGrid = document.getElementById("resourceGrid");
+  const searchInput = document.getElementById("searchInput");
+  const typeSelect = document.getElementById("typeSelect");
+  const totalCount = document.getElementById("totalCount");
+
+  function renderCategories() {
+    categoryBox.innerHTML = categories.map(category => `
+      <button class="chip ${category === currentCategory ? "active" : ""}" onclick="setCategory('${category}')">
+        ${category}
+      </button>
+    `).join("");
+  }
+
+  function setCategory(category) {
+    currentCategory = category;
+    renderCategories();
+    renderResources();
+  }
+
+  function renderResources() {
+    const keyword = searchInput.value.trim().toLowerCase();
+    const type = typeSelect.value;
+
+    const filtered = resources.filter(item => {
+      const matchCategory = currentCategory === "全部" || item.category === currentCategory;
+      const matchType = type === "全部" || item.type === type;
+      const text = `${item.title} ${item.category} ${item.desc} ${item.tags.join(" ")}`.toLowerCase();
+      const matchKeyword = text.includes(keyword);
+      return matchCategory && matchType && matchKeyword;
+    });
+
+    totalCount.textContent = filtered.length;
+
+    if (filtered.length === 0) {
+      resourceGrid.innerHTML = `
+        <div class="card">
+          <h3>没有找到相关资料</h3>
+          <p>可以换一个关键词，比如：传感器、自动控制、LabVIEW、单片机、误差理论。</p>
+        </div>
+      `;
+      return;
+    }
+
+    resourceGrid.innerHTML = filtered.map(item => `
+      <article class="card">
+        <div class="tagline">
+          <span class="type">${item.type}</span>
+          <span class="size">${item.size}</span>
+        </div>
+        <h3>${item.title}</h3>
+        <p>${item.desc}</p>
+        <div class="tags">
+          ${item.tags.map(tag => `<span class="tag">#${tag}</span>`).join("")}
+        </div>
+        <a class="download" href="${item.link}" download>下载资料</a>
+      </article>
+    `).join("");
+  }
+
+  searchInput.addEventListener("input", renderResources);
+  typeSelect.addEventListener("change", renderResources);
+
+  renderCategories();
+  renderResources();
+</script>
 
 </body>
 </html>
