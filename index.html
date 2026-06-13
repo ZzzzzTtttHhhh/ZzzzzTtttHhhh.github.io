@@ -4,21 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>测控专业资料库</title>
+
   <style>
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
       background: #f4f7fb;
       color: #162033;
     }
 
     header {
-      min-height: 340px;
-      padding: 70px 24px;
+      min-height: 360px;
+      padding: 80px 24px;
       color: white;
       background:
         linear-gradient(135deg, rgba(14, 48, 92, 0.95), rgba(0, 148, 172, 0.88)),
@@ -65,12 +70,6 @@
       color: #0d4775;
     }
 
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.14);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.45);
-    }
-
     .btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
@@ -96,7 +95,8 @@
       margin-bottom: 22px;
     }
 
-    input, select {
+    input,
+    select {
       width: 100%;
       padding: 15px 16px;
       border: 1px solid #d8e2ef;
@@ -106,7 +106,8 @@
       background: #f9fbff;
     }
 
-    input:focus, select:focus {
+    input:focus,
+    select:focus {
       border-color: #139fb3;
       box-shadow: 0 0 0 4px rgba(19, 159, 179, 0.12);
     }
@@ -124,6 +125,7 @@
       border-radius: 18px;
       padding: 18px;
       text-align: center;
+      color: #4a5d72;
     }
 
     .stat strong {
@@ -147,6 +149,12 @@
       cursor: pointer;
       font-weight: 600;
       color: #37506b;
+      transition: 0.2s;
+    }
+
+    .chip:hover {
+      border-color: #0e7891;
+      color: #0e7891;
     }
 
     .chip.active {
@@ -241,28 +249,25 @@
       color: white;
       text-decoration: none;
       font-weight: 800;
+      transition: 0.2s;
     }
 
-    .upload-box {
-      margin-top: 28px;
-      padding: 24px;
-      border-radius: 24px;
-      background: linear-gradient(135deg, #102a45, #0e7891);
-      color: white;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 20px;
-      align-items: center;
+    .download:hover {
+      background: #0e7891;
     }
 
-    .upload-box h2 {
-      margin: 0 0 8px;
+    .notice {
+      margin-top: 26px;
+      padding: 20px;
+      border-radius: 20px;
+      background: #f2f8ff;
+      border: 1px solid #dcecff;
+      color: #40576d;
+      line-height: 1.8;
     }
 
-    .upload-box p {
-      margin: 0;
-      color: #dff6ff;
-      line-height: 1.7;
+    .notice strong {
+      color: #0e7891;
     }
 
     footer {
@@ -273,7 +278,6 @@
 
     @media (max-width: 760px) {
       .toolbar,
-      .upload-box,
       .stats {
         grid-template-columns: 1fr;
       }
@@ -284,189 +288,231 @@
     }
   </style>
 </head>
+
 <body>
 
-<header>
-  <h1>测控专业资料库</h1>
-  <p>
-    面向测控技术与仪器、自动化、电子信息相关方向，整理课程笔记、实验报告、复习资料、课程设计与工具教程。
-  </p>
-  <div class="hero-actions">
-    <a class="btn btn-primary" href="#resources">浏览资料</a>
-    <a class="btn btn-secondary" href="#upload">上传投稿</a>
-  </div>
-</header>
+  <header>
+    <h1>测控专业资料库</h1>
+    <p>
+      面向测控技术与仪器、自动化、电子信息相关方向，整理课程笔记、实验报告、复习资料、课程设计与工具教程。
+    </p>
 
-<main>
-  <section class="panel" id="resources">
-    <div class="toolbar">
-      <input id="searchInput" type="text" placeholder="搜索：传感器、自动控制、LabVIEW、单片机、实验报告..." />
-      <select id="typeSelect">
-        <option value="全部">全部类型</option>
-        <option value="PDF">PDF</option>
-        <option value="PPT">PPT</option>
-        <option value="DOC">DOC</option>
-        <option value="ZIP">ZIP</option>
-      </select>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#resources">浏览资料</a>
     </div>
+  </header>
 
-    <div class="stats">
-      <div class="stat"><strong id="totalCount">0</strong>份资料</div>
-      <div class="stat"><strong>8</strong>个方向</div>
-      <div class="stat"><strong>Free</strong>免费下载</div>
-      <div class="stat"><strong>GitHub</strong>托管</div>
-    </div>
+  <main>
+    <section class="panel" id="resources">
+      <div class="toolbar">
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="搜索：传感器、自动控制、LabVIEW、单片机、实验报告..."
+        />
 
-    <div class="categories" id="categoryBox"></div>
-
-    <div class="grid" id="resourceGrid"></div>
-
-    <div class="upload-box" id="upload">
-      <div>
-        <h2>上传 / 投稿资料</h2>
-        <p>
-          GitHub Pages 不能直接接收访客上传文件。你可以先把资料发到邮箱，审核后由站长上传到 GitHub 仓库的 files 文件夹。
-        </p>
+        <select id="typeSelect">
+          <option value="全部">全部类型</option>
+          <option value="PDF">PDF</option>
+          <option value="PPT">PPT</option>
+          <option value="DOC">DOC</option>
+          <option value="ZIP">ZIP</option>
+        </select>
       </div>
-      <a class="btn btn-primary" href="mailto:your@email.com?subject=测控资料投稿&body=资料名称：%0A资料类别：%0A资料说明：%0A投稿人：">
-        邮件投稿
-      </a>
-    </div>
-  </section>
-</main>
 
-<footer>
-  © 2026 测控专业资料库｜仅供学习交流，请勿上传侵权内容
-</footer>
+      <div class="stats">
+        <div class="stat">
+          <strong id="totalCount">0</strong>
+          份资料
+        </div>
 
-<script>
-  const resources = [
-    {
-      title: "传感器与检测技术复习笔记",
-      category: "传感器与检测",
-      type: "PDF",
-      size: "2.4 MB",
-      desc: "包含传感器分类、静动态特性、电阻式、电容式、电感式、压电式传感器等重点内容。",
-      tags: ["传感器", "检测技术", "期末复习"],
-      link: "files/sensor-notes.pdf"
-    },
-    {
-      title: "自动控制原理知识点整理",
-      category: "自动控制",
-      type: "PDF",
-      size: "3.1 MB",
-      desc: "整理传递函数、时域分析、根轨迹、频率响应、稳定性判据等常见考点。",
-      tags: ["自动控制", "根轨迹", "稳定性"],
-      link: "files/control-review.pdf"
-    },
-    {
-      title: "LabVIEW 虚拟仪器入门教程",
-      category: "虚拟仪器",
-      type: "PPT",
-      size: "6.8 MB",
-      desc: "适合课程设计和实验入门，包含前面板、程序框图、数据采集和常见控件使用。",
-      tags: ["LabVIEW", "虚拟仪器", "课程设计"],
-      link: "files/labview-guide.pdf"
-    },
-    {
-      title: "单片机实验报告模板",
-      category: "单片机与嵌入式",
-      type: "DOC",
-      size: "860 KB",
-      desc: "适用于 51 单片机、STM32、Arduino 等基础实验报告排版与内容结构参考。",
-      tags: ["单片机", "实验报告", "模板"],
-      link: "files/mcu-report-template.docx"
-    },
-    {
-      title: "误差理论与数据处理公式表",
-      category: "误差与数据处理",
-      type: "PDF",
-      size: "1.2 MB",
-      desc: "包含误差分类、标准差、不确定度、最小二乘法、有效数字等常用公式。",
-      tags: ["误差理论", "数据处理", "公式"],
-      link: "files/error-formulas.pdf"
-    },
-    {
-      title: "测控课程设计资料包",
-      category: "课程设计",
-      type: "ZIP",
-      size: "12.5 MB",
-      desc: "课程设计参考资料包，可放置报告、代码、原理图、仿真文件等压缩包。",
-      tags: ["课程设计", "资料包", "代码"],
-      link: "files/project-package.zip"
+        <div class="stat">
+          <strong>8</strong>
+          个方向
+        </div>
+
+        <div class="stat">
+          <strong>Free</strong>
+          免费下载
+        </div>
+
+        <div class="stat">
+          <strong>GitHub</strong>
+          托管维护
+        </div>
+      </div>
+
+      <div class="categories" id="categoryBox"></div>
+
+      <div class="grid" id="resourceGrid"></div>
+
+      <div class="notice">
+        <strong>说明：</strong>
+        本站资料由站长统一整理和上传，所有资料仅供学习交流使用。下载失败时，请检查资料文件是否已经上传到 GitHub 仓库的
+        <strong>files</strong> 文件夹中。
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 测控专业资料库｜资料由站长整理维护，仅供学习交流
+  </footer>
+
+  <script>
+    const resources = [
+      {
+        title: "传感器与检测技术复习笔记",
+        category: "传感器与检测",
+        type: "PDF",
+        size: "2.4 MB",
+        desc: "包含传感器分类、静动态特性、电阻式、电容式、电感式、压电式传感器等重点内容。",
+        tags: ["传感器", "检测技术", "期末复习"],
+        link: "files/sensor-notes.pdf"
+      },
+      {
+        title: "自动控制原理知识点整理",
+        category: "自动控制",
+        type: "PDF",
+        size: "3.1 MB",
+        desc: "整理传递函数、时域分析、根轨迹、频率响应、稳定性判据等常见考点。",
+        tags: ["自动控制", "根轨迹", "稳定性"],
+        link: "files/control-review.pdf"
+      },
+      {
+        title: "LabVIEW 虚拟仪器入门教程",
+        category: "虚拟仪器",
+        type: "PPT",
+        size: "6.8 MB",
+        desc: "适合课程设计和实验入门，包含前面板、程序框图、数据采集和常见控件使用。",
+        tags: ["LabVIEW", "虚拟仪器", "课程设计"],
+        link: "files/labview-guide.pptx"
+      },
+      {
+        title: "单片机实验报告模板",
+        category: "单片机与嵌入式",
+        type: "DOC",
+        size: "860 KB",
+        desc: "适用于 51 单片机、STM32、Arduino 等基础实验报告排版与内容结构参考。",
+        tags: ["单片机", "实验报告", "模板"],
+        link: "files/mcu-report-template.docx"
+      },
+      {
+        title: "误差理论与数据处理公式表",
+        category: "误差与数据处理",
+        type: "PDF",
+        size: "1.2 MB",
+        desc: "包含误差分类、标准差、不确定度、最小二乘法、有效数字等常用公式。",
+        tags: ["误差理论", "数据处理", "公式"],
+        link: "files/error-formulas.pdf"
+      },
+      {
+        title: "测控课程设计资料包",
+        category: "课程设计",
+        type: "ZIP",
+        size: "12.5 MB",
+        desc: "课程设计参考资料包，可放置报告、代码、原理图、仿真文件等压缩包。",
+        tags: ["课程设计", "资料包", "代码"],
+        link: "files/project-package.zip"
+      },
+      {
+        title: "自动控制原理期末复习资料",
+        category: "自动控制",
+        type: "PDF",
+        size: "3.2 MB",
+        desc: "包含传递函数、稳定性分析、根轨迹、频率响应等重点内容。",
+        tags: ["自动控制", "期末复习", "根轨迹"],
+        link: "files/Optical_Pulse_Oximetry_Course_Report_formatted.docx"
+      }
+    ];
+
+    let currentCategory = "全部";
+
+    const categories = ["全部", ...new Set(resources.map(item => item.category))];
+
+    const categoryBox = document.getElementById("categoryBox");
+    const resourceGrid = document.getElementById("resourceGrid");
+    const searchInput = document.getElementById("searchInput");
+    const typeSelect = document.getElementById("typeSelect");
+    const totalCount = document.getElementById("totalCount");
+
+    function renderCategories() {
+      categoryBox.innerHTML = categories.map(category => `
+        <button
+          class="chip ${category === currentCategory ? "active" : ""}"
+          onclick="setCategory('${category}')"
+        >
+          ${category}
+        </button>
+      `).join("");
     }
-  ];
 
-  let currentCategory = "全部";
+    function setCategory(category) {
+      currentCategory = category;
+      renderCategories();
+      renderResources();
+    }
 
-  const categories = ["全部", ...new Set(resources.map(item => item.category))];
+    function renderResources() {
+      const keyword = searchInput.value.trim().toLowerCase();
+      const type = typeSelect.value;
 
-  const categoryBox = document.getElementById("categoryBox");
-  const resourceGrid = document.getElementById("resourceGrid");
-  const searchInput = document.getElementById("searchInput");
-  const typeSelect = document.getElementById("typeSelect");
-  const totalCount = document.getElementById("totalCount");
+      const filtered = resources.filter(item => {
+        const matchCategory = currentCategory === "全部" || item.category === currentCategory;
+        const matchType = type === "全部" || item.type === type;
 
-  function renderCategories() {
-    categoryBox.innerHTML = categories.map(category => `
-      <button class="chip ${category === currentCategory ? "active" : ""}" onclick="setCategory('${category}')">
-        ${category}
-      </button>
-    `).join("");
-  }
+        const text = `
+          ${item.title}
+          ${item.category}
+          ${item.desc}
+          ${item.tags.join(" ")}
+        `.toLowerCase();
 
-  function setCategory(category) {
-    currentCategory = category;
+        const matchKeyword = text.includes(keyword);
+
+        return matchCategory && matchType && matchKeyword;
+      });
+
+      totalCount.textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        resourceGrid.innerHTML = `
+          <div class="card">
+            <h3>没有找到相关资料</h3>
+            <p>
+              可以换一个关键词，比如：传感器、自动控制、LabVIEW、单片机、误差理论。
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      resourceGrid.innerHTML = filtered.map(item => `
+        <article class="card">
+          <div class="tagline">
+            <span class="type">${item.type}</span>
+            <span class="size">${item.size}</span>
+          </div>
+
+          <h3>${item.title}</h3>
+          <p>${item.desc}</p>
+
+          <div class="tags">
+            ${item.tags.map(tag => `<span class="tag">#${tag}</span>`).join("")}
+          </div>
+
+          <a class="download" href="${item.link}" download>
+            下载资料
+          </a>
+        </article>
+      `).join("");
+    }
+
+    searchInput.addEventListener("input", renderResources);
+    typeSelect.addEventListener("change", renderResources);
+
     renderCategories();
     renderResources();
-  }
-
-  function renderResources() {
-    const keyword = searchInput.value.trim().toLowerCase();
-    const type = typeSelect.value;
-
-    const filtered = resources.filter(item => {
-      const matchCategory = currentCategory === "全部" || item.category === currentCategory;
-      const matchType = type === "全部" || item.type === type;
-      const text = `${item.title} ${item.category} ${item.desc} ${item.tags.join(" ")}`.toLowerCase();
-      const matchKeyword = text.includes(keyword);
-      return matchCategory && matchType && matchKeyword;
-    });
-
-    totalCount.textContent = filtered.length;
-
-    if (filtered.length === 0) {
-      resourceGrid.innerHTML = `
-        <div class="card">
-          <h3>没有找到相关资料</h3>
-          <p>可以换一个关键词，比如：传感器、自动控制、LabVIEW、单片机、误差理论。</p>
-        </div>
-      `;
-      return;
-    }
-
-    resourceGrid.innerHTML = filtered.map(item => `
-      <article class="card">
-        <div class="tagline">
-          <span class="type">${item.type}</span>
-          <span class="size">${item.size}</span>
-        </div>
-        <h3>${item.title}</h3>
-        <p>${item.desc}</p>
-        <div class="tags">
-          ${item.tags.map(tag => `<span class="tag">#${tag}</span>`).join("")}
-        </div>
-        <a class="download" href="${item.link}" download>下载资料</a>
-      </article>
-    `).join("");
-  }
-
-  searchInput.addEventListener("input", renderResources);
-  typeSelect.addEventListener("change", renderResources);
-
-  renderCategories();
-  renderResources();
-</script>
+  </script>
 
 </body>
 </html>
