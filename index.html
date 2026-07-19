@@ -608,6 +608,37 @@
       box-shadow: 0 20px 34px rgba(21, 84, 192, 0.22);
     }
 
+    .download-list {
+      display: grid;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .download-list .download {
+      margin-top: 0;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    .download-name {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .download-format {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border-radius: 999px;
+      color: rgba(255, 255, 255, 0.82);
+      background: rgba(255, 255, 255, 0.13);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
     .notice {
       margin-top: 20px;
       padding: 16px 18px;
@@ -901,6 +932,7 @@
               <option value="PPT">PPT</option>
               <option value="DOC">DOC</option>
               <option value="ZIP">ZIP</option>
+              <option value="资料包">资料包</option>
               <option value="代码">代码</option>
             </select>
           </div>
@@ -1022,13 +1054,29 @@
         link: "files/dawu2-1.zip"
       },
       {
-        title: "测控课程设计资料包",
-        category: "课程设计",
-        type: "ZIP",
-        size: "12.5 MB",
-        desc: "课程设计参考资料包，可放置报告、代码、原理图、仿真文件等压缩包。",
-        tags: ["课程设计", "资料包", "代码"],
-        link: "files/project-package.zip"
+        title: "传感器课程设计",
+        category: "传感器课程设计",
+        type: "资料包",
+        size: "3 个文件",
+        desc: "包含蓝牙通信、MiniBalance 平衡控制及 MPU6050 工程项目文件，可分别下载。",
+        tags: ["传感器", "课程设计", "MPU6050", "蓝牙", "平衡控制"],
+        files: [
+          {
+            name: "BlueTooth.7z",
+            type: "7Z",
+            link: "files/BlueTooth.7z"
+          },
+          {
+            name: "MiniBalance.zip",
+            type: "ZIP",
+            link: "files/MiniBalance.zip"
+          },
+          {
+            name: "ProPrj_MPU6050_2026-07-19.epro2",
+            type: "EPRO2",
+            link: "files/ProPrj_MPU6050_2026-07-19.epro2"
+          }
+        ]
       }
     ];
 
@@ -1058,7 +1106,8 @@
       const filtered = resources.filter(item => {
         const matchCategory = currentCategory === "全部" || item.category === currentCategory;
         const matchType = type === "全部" || item.type.toUpperCase() === type.toUpperCase();
-        const text = `${item.title} ${item.category} ${item.desc} ${item.tags.join(" ")}`.toLowerCase();
+        const fileText = item.files ? item.files.map(file => file.name).join(" ") : "";
+        const text = `${item.title} ${item.category} ${item.desc} ${item.tags.join(" ")} ${fileText}`.toLowerCase();
         return matchCategory && matchType && text.includes(keyword);
       });
 
@@ -1089,7 +1138,18 @@
             ${item.tags.map(tag => `<span class="tag">#${tag}</span>`).join("")}
           </div>
 
-          <a class="download" href="${item.link}" download>下载资料</a>
+          ${item.files && item.files.length ? `
+            <div class="download-list">
+              ${item.files.map(file => `
+                <a class="download" href="${file.link}" download>
+                  <span class="download-name">${file.name}</span>
+                  <span class="download-format">${file.type}</span>
+                </a>
+              `).join("")}
+            </div>
+          ` : `
+            <a class="download" href="${item.link}" download>下载资料</a>
+          `}
         </article>
       `).join("");
     }
@@ -1127,5 +1187,6 @@
     renderResources();
   </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"7939e04a4baf43c8b86a560f74aac60e","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"7939e04a4baf43c8b86a560f74aac60e","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
