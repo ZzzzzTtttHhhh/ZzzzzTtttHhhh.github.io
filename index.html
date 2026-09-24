@@ -10,7 +10,7 @@
 <section id="library" class="workbench"><div class="toolbar"><div class="search"><input id="q" type="search" placeholder="搜索标题、年份或关键词" aria-label="搜索资料"></div><select id="type" aria-label="文件类型"><option>全部格式</option><option>PDF</option><option>DOC</option><option>DOCX</option><option>ZIP</option><option>RAR</option><option>7Z</option><option>EPRO2</option><option>MS14</option></select></div><div class="categories" id="cats"></div><div class="grid" id="grid"></div></section></main><footer class="wrap">© 2026 测控技术与仪器 · 学习资料整理</footer>
 <script>
 const R=[
-['高数 2-1 资料合集','高等数学','ZIP','52 MB','期中 + 期末，已按文件夹整理',['高数 2-1','资料包'],'files/高数2-1资料合集.zip'],
+['高数 2-1 资料合集','高等数学','ZIP','52 MB','期中 + 期末，已按文件夹整理',['高数 2-1','资料包'],'https://github.com/ZzzzzTtttHhhh/ZzzzzTtttHhhh.github.io/releases/download/archive-2026-09-24/2-1.zip'],
 ['数学分析 2024 期中扫描件','数学分析','ZIP','343 KB','数学分析课程期中考试扫描资料',['数学分析','期中'],'files/math-analysis-2024-midterm-scans.zip'],
 ['C++ 复习资料','程序设计','DOC','73 KB','C++ 课程复习与考点整理',['C++','复习'],'files/cpp-review.doc'],
 ['C++ 知识点整理','程序设计','DOCX','342 KB','控院 C++ 常见考点整理',['C++','程序设计'],'files/C_PLUS_PLUS.docx'],
@@ -40,3 +40,4 @@ function drawCats(){cats.innerHTML=['全部',...new Set(R.map(x=>x[1]))].map(x=>
 function draw(){const key=q.value.trim().toLowerCase(),t=type.value.toLowerCase();const rows=R.filter(x=>(current==='全部'||x[1]===current)&&(t==='全部格式'||x[2].toLowerCase()===t)&&x.join(' ').toLowerCase().includes(key));grid.innerHTML=rows.length?rows.map(x=>`<article class="card"><div class="meta"><span class="type">${x[2]}</span><span>${x[3]}</span></div><h2>${x[0]}</h2><p>${x[4]}</p><div class="tags">${x[5].map(t=>`<span class="tag">#${t}</span>`).join('')}</div><a class="download" href="${encodeURI(x[6])}" download><span>下载资料</span><small>↓ ${x[2]}</small></a></article>`).join(''):'<div class="empty">没有找到匹配资料。试试换一个关键词。</div>'}
 cats.addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;current=b.dataset.c;drawCats();draw()});q.addEventListener('input',draw);type.addEventListener('change',draw);drawCats();draw();
 </script></body></html>
+
